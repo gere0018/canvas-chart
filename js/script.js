@@ -34,7 +34,9 @@ function showPie(){
   canvas = document.querySelector("#myCanvas");
   context = canvas.getContext("2d");
     //clear canvas if there is any previous inputs.
+  context.restore();
   context.clearRect(0, 0, canvas.width, canvas.height);
+  context.restore;
   var cx = (canvas.width/2) - 40;
   var cy = canvas.height/2 ;
   var radius = 110;
@@ -84,7 +86,10 @@ function showPie(){
   }
 }
 function showSpecs(){
+//restoring the original context to clear the transformations i made.
+  context.restore();
   context.clearRect(0, 0, canvas.width, canvas.height);
+  context.save();
   for(var i=0;i<Value.length; i++){
       var x = 2 + Math.round(Value[i].value);
       var y = 6 * x +50;
@@ -118,27 +123,21 @@ function showSpecs(){
       switch (i) {
     case 0:
         context.translate(x/2, y/9);
-              console.log('0');
         break;
     case 1:
         context.translate(x/4, y/10);
-              console.log('1');
         break;
     case 2:
         context.translate(x + 30, y/8-10);
-              console.log('2');
         break;
     case 3:
         context.translate(x/8-20, y/10 -30);
-              console.log('3');
         break;
     case 4:
         context.translate(x+140, y+8);
-              console.log('4');
         break;
     case 5:
         context.translate(x/4, y/10);
-              console.log('5');
         break;
 
 
