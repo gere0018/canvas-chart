@@ -1,19 +1,25 @@
 #myCanvas{
-    outline: 1px solid red;
-
+    border: 3px solid cyan;
 }
 #container{
    background-color: #FFFACD;
    border: 1px solid black;
    padding: 10px;
-   min-width: 400px;
-   width: 50%;
+   width: 410px;
    margin:0 auto;
 }
-/*
-.button{
-    width:60px;
-    height: auto;
-    background-color: blue;
+h1{
+    text-align: center;
+    font-family: "Georgia", sans-serif;
 }
-*/
+.button{
+    width:100px;
+    height: auto;
+    background-color: cyan;
+    font-family: "Georgia", sans-serif;
+    font-size: 10pt;
+}
+
+#btnPie{
+    margin-right: 199px;
+}
