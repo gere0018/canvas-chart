@@ -1,9 +1,11 @@
 var canvas, context;
+var data;
 var total = 0;
 var percentage;
+var Value;
 
-document.addEventListener("DOMContentLoaded", function(){
-    addButtonListeners();
+document.addEventListener("DOMContentLoaded", function () {
+ addButtonListeners();
  var request = $.ajax({
   url: "js/cheese.json",
   type: "GET",
@@ -14,6 +16,7 @@ request.done(function(data){
   console.log(data);
     for(var i=0; i<data.segments.length; i++){
      total +=  data.segments[i].value;
+     Value = data.segments;
  }
     showPie(data.segments);
 
@@ -78,16 +81,36 @@ function showPie(values){
     currentAngle = endAngle;
   }
 }
-function showSpecs(values){
+function showSpecs(){
   context.clearRect(0, 0, canvas.width, canvas.height);
-  context.beginPath();
-  context.moveTo(10, 40);
-  context.lineTo(60, 3);
-  context.moveTo(60, 3);
-  context.lineTo(80, 40);
-  context.moveTo(80, 40);
-  context.lineTo(10, 40);
-  context.stroke();
+  for(var i=0;i<Value.length; i++){
+      var x = 2 + Math.round(Value[i].value);
+      var y = 6 * x +100;
+      var color = Value[i].color;
+      context.beginPath();
+      context.moveTo(x, y);
+      context.lineTo(6*x, y/10);
+      context.moveTo(6*x, y/10);
+      context.lineTo(8*x, y);
+      context.moveTo(8*x, y);
+      context.lineTo(x, y);
+      context.moveTo(x, y);
+      context.lineTo(x, y+20);
+      context.moveTo(x, y+20);
+      context.lineTo(8*x, y+20);
+      context.moveTo(8*x, y+20);
+      context.lineTo(8*x, y);
+      context.lineWidth = 4;
+      context.strokeStyle = color;
+      context.stroke();
+      var text = Value[i].label;
+        context.font = '12pt Georgia';
+        context.fillStyle = 'black';
+        context.strokeStyle = 'black';
+        context.lineWidth = 1;
+        context.fillText(text,x+10, y+15);
+  }
+
 }
 
 
