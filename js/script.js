@@ -18,10 +18,11 @@ request.done(function(data){
   console.log(data);
     for(var i=0; i<data.segments.length; i++){
      total +=  data.segments[i].value;
+    }
      Value = data.segments;
- }
     //Pie chart will show upon the load of the document.
     showPie();
+
 
 });
 
@@ -85,7 +86,8 @@ function showPie(){
   }
 }
 function showSpecs(){
-  Value.sort(function (a, b) {
+    var sortedValue = Value.slice();
+  sortedValue.sort(function (a, b) {
           if (a.value < b.value) {
             return 1;
           }
@@ -95,13 +97,13 @@ function showSpecs(){
           // a must be equal to b
           return 0;
         });
-    console.log(Value);
+    console.log(sortedValue);
 //restoring the original context to clear the transformations i made.
   context.clearRect(0, 0, canvas.width, canvas.height);
-  for(var i=0;i<Value.length; i++){
-      var x = 2 + Math.round(Value[i].value);
+  for(var i=0;i<sortedValue.length; i++){
+      var x = 2 + Math.round(sortedValue[i].value);
       var y = 6 * x +50;
-      color = Value[i].color;
+      color = sortedValue[i].color;
       //draw the triangle for each of the cheese items
       context.beginPath();
       context.moveTo(x, y);
@@ -122,7 +124,7 @@ function showSpecs(){
       context.fillStyle = "cyan";
       context.fill();
       // add text cheese name inside rectangle
-      var text = Value[i].label;
+      var text = sortedValue[i].label;
       if(text=="Stilton"){
           context.font = '6pt Georgia';
       }else{
@@ -134,11 +136,10 @@ function showSpecs(){
         context.fillText(text,x+5, y+15);
 
   }
-
 }
 
 function addButtonListeners(){
-     document.querySelector("#btnPie").addEventListener("click", showPie);
+ document.querySelector("#btnPie").addEventListener("click", showPie);
     document.querySelector("#btnSpecs").addEventListener("click", showSpecs);
 }
 
