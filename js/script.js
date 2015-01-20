@@ -4,6 +4,7 @@ var data;
 var total = 0;
 var percentage;
 var Value;
+var color;
 //upon loading document, make Ajax call to retrieve data and add event listener to buttons.
 document.addEventListener("DOMContentLoaded", function () {
  addButtonListeners();
@@ -34,16 +35,14 @@ function showPie(){
   canvas = document.querySelector("#myCanvas");
   context = canvas.getContext("2d");
     //clear canvas if there is any previous inputs.
-  context.restore();
   context.clearRect(0, 0, canvas.width, canvas.height);
-  context.restore;
   var cx = (canvas.width/2) - 40;
   var cy = canvas.height/2 ;
   var radius = 110;
   var currentAngle = 0;
   for(var i=0; i<Value.length; i++){
     percentage = Value[i].value/total;
-    var color = Value[i].color;
+    color = Value[i].color;
     var endAngle = currentAngle + (percentage * (Math.PI * 2));
     context.moveTo(cx, cy);
     context.beginPath();
@@ -86,30 +85,43 @@ function showPie(){
   }
 }
 function showSpecs(){
+  Value.sort(function (a, b) {
+          if (a.value < b.value) {
+            return 1;
+          }
+          if (a.value > b.value) {
+            return -1;
+          }
+          // a must be equal to b
+          return 0;
+        });
+    console.log(Value);
 //restoring the original context to clear the transformations i made.
-  context.restore();
   context.clearRect(0, 0, canvas.width, canvas.height);
-  context.save();
   for(var i=0;i<Value.length; i++){
       var x = 2 + Math.round(Value[i].value);
       var y = 6 * x +50;
-      var color = Value[i].color;
+      color = Value[i].color;
+      //draw the triangle for each of the cheese items
       context.beginPath();
       context.moveTo(x, y);
       context.lineTo(6*x, y/10);
-      context.moveTo(6*x, y/10);
       context.lineTo(8*x, y);
-      context.moveTo(8*x, y);
       context.lineTo(x, y);
+      context.closePath();
+      context.fillStyle = color;
+      context.fill();
+      //draw additional rectangle at the bottom.
+      context.beginPath();
       context.moveTo(x, y);
       context.lineTo(x, y+20);
-      context.moveTo(x, y+20);
       context.lineTo(8*x, y+20);
-      context.moveTo(8*x, y+20);
       context.lineTo(8*x, y);
-      context.lineWidth = 4;
-      context.strokeStyle = color;
-      context.stroke();
+      context.closePath();
+      context.lineWidth = 2;
+      context.fillStyle = "cyan";
+      context.fill();
+      // add text cheese name inside rectangle
       var text = Value[i].label;
       if(text=="Stilton"){
           context.font = '6pt Georgia';
@@ -120,28 +132,6 @@ function showSpecs(){
         context.strokeStyle = 'black';
         context.lineWidth = 1;
         context.fillText(text,x+5, y+15);
-      switch (i) {
-    case 0:
-        context.translate(x/2, y/9);
-        break;
-    case 1:
-        context.translate(x/4, y/10);
-        break;
-    case 2:
-        context.translate(x + 30, y/8-10);
-        break;
-    case 3:
-        context.translate(x/8-20, y/10 -30);
-        break;
-    case 4:
-        context.translate(x+140, y+8);
-        break;
-    case 5:
-        context.translate(x/4, y/10);
-        break;
-
-
-    }
 
   }
 
